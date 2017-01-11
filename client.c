@@ -94,7 +94,12 @@ void* read_messages(void *arg) {
             perror("Failed to read a message");
             break;
         }
-        printf("\n" COLOR_GREEN "%s" COLOR_RESET, msg.from);
+
+        if (msg.mtype == 1) {
+            printf("\n" COLOR_GREEN "%s" COLOR_RESET, msg.from);
+        } else if (msg.mtype == 2) {
+            printf("\n" COLOR_RED "%s" COLOR_RESET, msg.from);
+        }
         printf(" to " COLOR_GREEN "%c%s" COLOR_RESET "\n", msg.to_symbol, msg.to);
         printf(COLOR_BOLD "%s" COLOR_RESET "\n\n", msg.message);
     }
