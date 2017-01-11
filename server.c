@@ -74,6 +74,20 @@ void send_server_message(char to_symbol, char *to, char *message) {
     send_message(msg);
 }
 
+void send_user_list(char username[]) {
+    char users_list[MAX_MESSAGE_LENGTH] = "Connected users: ";
+
+    struct user *user;
+    for (user = connected_users; user != NULL; user = user->next) {
+        strcat(users_list, user->username);
+        if (user->next != NULL) {
+            strcat(users_list, ", ");
+        }
+    }
+
+    send_server_message('@', username, users_list);
+}
+
 void add_user(char username[], key_t key) {
     struct user *user, *prev = NULL;
     for (user = connected_users; user != NULL; user = user->next) {
@@ -118,7 +132,7 @@ void remove_user(char username[]) {
 void process_command(struct command cmd) {
     printf("{\n  type: %ld\n  data: %s\n  user: %s\n}\n", cmd.mtype, cmd.data, cmd.username);
 
-    if (cmd.mtype == 1) {
+    if (cmd.data[0] == '@' || cmd.data[0] == '#' || cmd.data[0] == '*') {
         struct message msg;
         msg.mtype = 1;
         strncpy(msg.from, cmd.username, MAX_NAME_LENGTH);
@@ -132,17 +146,23 @@ void process_command(struct command cmd) {
         }
 
         send_message(msg);
-    } else if (cmd.mtype == 2) {
+    } else {
         char action[32];
         sscanf(cmd.data, "%s", action);
         char *params = cmd.data + strlen(action) + 1;
 
-        if (strcmp(action, "login") == 0) {
-            key_t key;
-            sscanf(params, "%u", &key);
-            add_user(cmd.username, key);
-        } else if (strcmp(action, "logout") == 0) {
-            remove_user(cmd.username);
+        if (cmd.mtype == 1) {
+            if (strcmp(action, "users") == 0) {
+                send_user_list(cmd.username);
+            }
+        } else if (cmd.mtype == 2) {
+            if (strcmp(action, "login") == 0) {
+                key_t key;
+                sscanf(params, "%u", &key);
+                add_user(cmd.username, key);
+            } else if (strcmp(action, "logout") == 0) {
+                remove_user(cmd.username);
+            }
         }
     }
 }
