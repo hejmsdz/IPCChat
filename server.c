@@ -89,10 +89,10 @@ void process_command(struct command cmd) {
 
 void read_commands() {
     struct command cmd;
-    size_t size = sizeof(cmd) - sizeof(cmd.mtype);
+    size_t cmd_size = sizeof(cmd) - sizeof(cmd.mtype);
 
     while (1) {
-        if (msgrcv(q, &cmd, size, 0, 0) == -1) {
+        if (msgrcv(q, &cmd, cmd_size, 0, 0) == -1) {
             perror("Failed to read a command");
             exit(-1);
         }
@@ -121,6 +121,7 @@ void handle(int sig) {
 
 int main() {
     atexit(cleanup);
+    signal(SIGINT, handle);
     signal(SIGTERM, handle);
 
     q = open_queue();

@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <pthread.h>
 #include "ipcchat.h"
 
 #define COLOR_BOLD    "\x1b[1m"
@@ -23,6 +24,7 @@
 
 char username[MAX_NAME_LENGTH];
 int in_q, out_q;
+int loop;
 
 key_t create_ftok() {
     key_t key;
@@ -67,7 +69,8 @@ int open_output_queue(key_t key) {
 
 void send_command(struct command cmd) {
     size_t cmd_size = sizeof(cmd) - sizeof(cmd.mtype);
-    strcpy(cmd.username, username);
+
+    strncpy(cmd.username, username, MAX_NAME_LENGTH);
     if (msgsnd(out_q, &cmd, cmd_size, 0) == -1) {
         perror("Failed to send a command");
         exit(-1);
@@ -81,12 +84,13 @@ void login(key_t in_key) {
     send_command(cmd);
 }
 
-void read_messages() {
+void* read_messages(void *arg) {
     struct message msg;
     size_t msg_size = sizeof(msg) - sizeof(msg.mtype);
 
-    while (1) {
+    while (loop) {
         if (msgrcv(in_q, &msg, msg_size, 0, 0) == -1) {
+            loop = 0;
             perror("Failed to read a message");
             break;
         }
@@ -94,9 +98,65 @@ void read_messages() {
         printf(" to " COLOR_GREEN "%c%s" COLOR_RESET "\n", msg.to_symbol, msg.to);
         printf(COLOR_BOLD "%s" COLOR_RESET "\n\n", msg.message);
     }
+
+    raise(SIGINT);
+    return NULL;
+}
+
+void* send_commands(void *arg) {
+    struct command cmd;
+    char *buffer = malloc(sizeof(cmd.data));
+    size_t len;
+
+    cmd.mtype = 1;
+
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+
+    while (loop) {
+        if (getline(&buffer, &len, stdin) == -1) {
+            perror("Failed to read a line");
+            break;
+        }
+        buffer[strlen(buffer) - 1] = 0;
+
+        if (strcmp(buffer, "logout") == 0) {
+            loop = 0;
+            break;
+        }
+
+        strncpy(cmd.data, buffer, sizeof(cmd.data));
+        send_command(cmd);
+    }
+    free(buffer);
+    raise(SIGINT);
+    return NULL;
+}
+
+void main_loop() {
+    pthread_t send, recv;
+
+    loop = 1;
+    if (pthread_create(&recv, NULL, read_messages, NULL) != 0) {
+        perror("Failed to start a reader thread!");
+        exit(-1);
+    }
+
+    if (pthread_create(&send, NULL, send_commands, NULL) != 0) {
+        perror("Failed to start a sender thread!");
+        exit(-1);
+    }
+
+    pthread_join(recv, NULL);
+    pthread_join(send, NULL);
 }
 
 void cleanup() {
+    struct command cmd;
+    cmd.mtype = 2;
+    cmd.data = "logout";
+    send_command(cmd);
+
     msgctl(in_q, IPC_RMID, NULL);
 }
 
@@ -106,6 +166,7 @@ void handle(int sig) {
 
 int main() {
     atexit(cleanup);
+    signal(SIGINT, handle);
     signal(SIGTERM, handle);
 
     key_t in_key, out_key;
@@ -120,5 +181,5 @@ int main() {
     out_q = open_output_queue(out_key);
     login(in_key);
 
-    read_messages();
+    main_loop();
 }
