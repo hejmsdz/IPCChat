@@ -154,7 +154,7 @@ void main_loop() {
 void cleanup() {
     struct command cmd;
     cmd.mtype = 2;
-    cmd.data = "logout";
+    strcpy(cmd.data, "logout");
     send_command(cmd);
 
     msgctl(in_q, IPC_RMID, NULL);

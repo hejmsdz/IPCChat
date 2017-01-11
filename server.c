@@ -8,6 +8,7 @@
 #include <sys/msg.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <stdbool.h>
 #include "ipcchat.h"
 
 struct user {
@@ -39,13 +40,26 @@ int open_queue() {
     return queue;
 }
 
+bool user_match(struct user *user, char to_symbol, char *to) {
+    switch (to_symbol) {
+        case '*':
+            return true;
+        case '@':
+            return strcmp(user->username, to) == 0;
+        default:
+            return false;
+    }
+}
+
 void send_message(struct message msg) {
     size_t msg_size = sizeof(msg) - sizeof(msg.mtype);
 
     struct user *user;
     for (user = connected_users; user != NULL; user = user->next) {
-        if (msgsnd(user->q, &msg, msg_size, 0) == -1) {
-            perror("Failed to send a message");
+        if (user_match(user, msg.to_symbol, msg.to)) {
+            if (msgsnd(user->q, &msg, msg_size, 0) == -1) {
+                perror("Failed to send a message");
+            }
         }
     }
 }
@@ -61,6 +75,15 @@ void send_server_message(char to_symbol, char *to, char *message) {
 }
 
 void add_user(char username[], key_t key) {
+    struct user *user, *prev = NULL;
+    for (user = connected_users; user != NULL; user = user->next) {
+        if (strcmp(user->username, username) == 0) {
+            printf("This username is taken!\n");
+            return;
+        }
+        prev = user;
+    }
+
     int user_q = msgget(key, 0);
     if (user_q == -1) {
         perror("Failed to open a user's queue");
@@ -70,20 +93,57 @@ void add_user(char username[], key_t key) {
     struct user *new_user = malloc(sizeof(struct user));
     strncpy(new_user->username, username, MAX_NAME_LENGTH);
     new_user->q = user_q;
-    new_user->next = connected_users;
-    connected_users = new_user;
+    new_user->next = NULL;
+    *(prev == NULL ? &connected_users : &prev->next) = new_user;
 
     send_server_message('@', username, "Welcome to the server!");
+}
+
+void remove_user(char username[]) {
+    struct user *user, *prev = NULL;
+    for (user = connected_users; user != NULL; user = user->next) {
+        if (strcmp(user->username, username) == 0) {
+            if (prev == NULL) {
+                connected_users = user->next;
+            } else {
+                prev->next = user->next;
+            }
+            printf("Disconnecting %s\n", user->username);
+            free(user);
+        }
+        prev = user;
+    }
 }
 
 void process_command(struct command cmd) {
     printf("{\n  type: %ld\n  data: %s\n  user: %s\n}\n", cmd.mtype, cmd.data, cmd.username);
 
-    char action[32];
-    if (cmd.mtype == 2) {
-        key_t key;
-        sscanf(cmd.data, "%s %u", action, &key);
-        add_user(cmd.username, key);
+    if (cmd.mtype == 1) {
+        struct message msg;
+        msg.mtype = 1;
+        strncpy(msg.from, cmd.username, MAX_NAME_LENGTH);
+        msg.to_symbol = cmd.data[0];
+        if (msg.to_symbol == '*') {
+            strcpy(msg.to, "");
+            strncpy(msg.message, cmd.data + 2, MAX_MESSAGE_LENGTH);
+        } else {
+            sscanf(cmd.data + 1, "%s", msg.to);
+            strncpy(msg.message, cmd.data + strlen(msg.to) + 2, MAX_MESSAGE_LENGTH);
+        }
+
+        send_message(msg);
+    } else if (cmd.mtype == 2) {
+        char action[32];
+        sscanf(cmd.data, "%s", action);
+        char *params = cmd.data + strlen(action) + 1;
+
+        if (strcmp(action, "login") == 0) {
+            key_t key;
+            sscanf(params, "%u", &key);
+            add_user(cmd.username, key);
+        } else if (strcmp(action, "logout") == 0) {
+            remove_user(cmd.username);
+        }
     }
 }
 
