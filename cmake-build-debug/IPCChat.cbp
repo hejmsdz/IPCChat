@@ -130,9 +130,15 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/rozwad/ClionProjects/IPCChat/client.c">
+			<Option target="client"/>
+		</Unit>
 		<Unit filename="/home/rozwad/ClionProjects/IPCChat/ipcchat.h">
 			<Option target="server"/>
 			<Option target="client"/>
+		</Unit>
+		<Unit filename="/home/rozwad/ClionProjects/IPCChat/server.c">
+			<Option target="server"/>
 		</Unit>
 		<Unit filename="/home/rozwad/ClionProjects/IPCChat/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>

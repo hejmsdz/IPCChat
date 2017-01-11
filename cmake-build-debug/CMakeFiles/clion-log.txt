@@ -1,8 +1,4 @@
 /opt/clion/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/rozwad/ClionProjects/IPCChat
 -- Configuring done
-CMake Error: CMake can not determine linker language for target: server
-CMake Error: Cannot determine link language for target "server".
-CMake Error: CMake can not determine linker language for target: client
-CMake Error: Cannot determine link language for target "client".
 -- Generating done
 -- Build files have been written to: /home/rozwad/ClionProjects/IPCChat/cmake-build-debug
