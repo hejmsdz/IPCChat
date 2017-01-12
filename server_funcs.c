@@ -36,7 +36,7 @@ int broadcast(struct message msg) {
     } else {
         struct user *user;
         for (user = connected_users; user != NULL; user = user->next) {
-            if (match_user(user, msg.to_symbol, msg.to)) {
+            if (match_user(user, msg.to_symbol, msg.to) || strcmp(msg.from, user->username) == 0) {
                 if (send(user->q, msg)) {
                     sent++;
                 } else {
