@@ -70,15 +70,15 @@ int remove_user(char username[]) {
 
     user = find_user(username, &prev);
 
+    for (room = available_rooms; room != NULL; room = room->next) {
+        leave_room(room->name, username);
+    }
+
     if (user == NULL) {
         return -1;
     }
 
     *(prev == NULL ? &connected_users : &prev->next) = user->next;
-
-    for (room = available_rooms; room != NULL; room = room->next) {
-        leave_room(room->name, username);
-    }
 
     free(user);
     return 1;

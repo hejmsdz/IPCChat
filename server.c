@@ -62,6 +62,8 @@ void process_command(struct command cmd) {
                 cmd_join(params, cmd.username);
             } else if (strcmp(action, "leave") == 0) {
                 cmd_leave(params, cmd.username);
+            } else if (strcmp(action, "help") == 0) {
+                cmd_help(cmd.username);
             }
         } else if (cmd.mtype == 2) {
             if (strcmp(action, "login") == 0) {
@@ -70,7 +72,6 @@ void process_command(struct command cmd) {
                 cmd_login(cmd.username, key);
             } else if (strcmp(action, "logout") == 0) {
                 cmd_logout(cmd.username);
-                remove_user(cmd.username);
             }
         }
     }

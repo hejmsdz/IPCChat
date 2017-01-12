@@ -20,6 +20,7 @@ void cmd_rooms(char username[]);
 void cmd_members(char room_name[], char username[]);
 void cmd_join(char room_name[], char username[]);
 void cmd_leave(char room_name[], char username[]);
+void cmd_help(char username[]);
 
 void cmd_message(char message[], char username[]);
 

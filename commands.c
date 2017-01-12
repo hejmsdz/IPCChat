@@ -60,7 +60,7 @@ void cmd_join(char room_name[], char username[]) {
             broadcast(server_message(2, '@', username, "No more rooms are allowed!"));
             break;
         case 1:
-            broadcast(server_message(2, '@', username, "You joined #%s.", room_name));
+            broadcast(server_message(2, '@', username, "You joined %s.", room_name));
             break;
         case 2:
             broadcast(server_message(2, '@', username, "You created and joined %s.", room_name));
@@ -85,6 +85,21 @@ void cmd_leave(char room_name[], char username[]) {
             broadcast(server_message(2, '@', username, "You left and removed %s.", room_name));
             break;
     }
+}
+
+void cmd_help(char username[]) {
+    broadcast(server_message(2, '@', username,
+         "Available commands:\n"
+         " @[user] [content] - private message\n"
+         " @[room] [content] - room message\n"
+         " * [content]       - public message\n"
+         " users\n"
+         " rooms\n"
+         " members [room]\n"
+         " join [room]\n"
+         " leave [room]\n"
+         " help\n"
+    ));
 }
 
 void cmd_message(char message[], char username[]) {
