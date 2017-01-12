@@ -100,13 +100,17 @@ struct room* find_room(char name[], struct room **prev) {
     return NULL;
 }
 
-void send(int queue, struct message msg) {
+bool send(int queue, struct message msg) {
     size_t msg_size = sizeof(msg) - sizeof(msg.mtype);
 
     if (msgsnd(queue, &msg, msg_size, 0) == -1) {
         perror("Failed to send a message");
+        return false;
     }
+    return true;
 }
+
+void remove_user(char username[]);
 
 void broadcast(struct message msg) {
     if (msg.to_symbol == '#') {
@@ -115,13 +119,17 @@ void broadcast(struct message msg) {
 
         struct room_member *member;
         for (member = room->members; member != NULL; member = member->next) {
-            send(member->member->q, msg);
+            if (!send(member->member->q, msg)) {
+                remove_user(member->member->username);
+            }
         }
     } else {
         struct user *user;
         for (user = connected_users; user != NULL; user = user->next) {
             if (user_match(user, msg.to_symbol, msg.to)) {
-                send(user->q, msg);
+                if (!send(user->q, msg)) {
+                    remove_user(user->username);
+                }
             }
         }
     }
