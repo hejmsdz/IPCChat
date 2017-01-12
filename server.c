@@ -64,6 +64,8 @@ void process_command(struct command cmd) {
                 cmd_leave(params, cmd.username);
             } else if (strcmp(action, "help") == 0) {
                 cmd_help(cmd.username);
+            } else if (strcmp(action, "logout") == 0) {
+                cmd_logout(cmd.username);
             } else {
                 cmd_unknown(cmd.username);
             }
@@ -72,8 +74,6 @@ void process_command(struct command cmd) {
                 key_t key;
                 sscanf(params, "%u", &key);
                 cmd_login(cmd.username, key);
-            } else if (strcmp(action, "logout") == 0) {
-                cmd_logout(cmd.username);
             }
         }
     }

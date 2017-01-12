@@ -1,7 +1,7 @@
 /*
     MR & JP
-    ver. 1.0.1
-    18:32 11.01.2017 (w razie jakby coś się zmieniło jeszcze)
+    ver. 1.2.0
+    23:55 12.01.2017 (w razie jakby coś się zmieniło jeszcze)
 */
 
 #ifndef IPCCHAT_IPCCHAT_H
@@ -29,7 +29,7 @@
 
 Serwer tworzy kolejkę i wypisuje jej ID, żeby klient wiedział, gdzie się podłączyć.
 Klient też tworzy swoją kolejkę i zaraz po otwarciu kolejki serwera wysyła tam komendę login ze swoim queue_id.
-Po wylogowaniu klient jest odpowiedzialny za usunięcie swojej kolejki.
+Po wylogowaniu klient nie wyłącza się sam z siebie, ale czeka na wiadomość pożegnalną (typu 3).
 
 Komunikacja klient -> serwer przez kolejkę serwera, struktura command
 Komunikacja serwer -> klient przez kolejkę klienta, struktura message
@@ -39,7 +39,7 @@ Komunikacja serwer -> klient przez kolejkę klienta, struktura message
 
 KOMENDA                 MTYPE   OPIS                        UWAGI
 login [id_kolejki]      2       zalogowanie                 to powinna być pierwsza komenda wysyłana po podłączeniu klienta
-logout                  2       wylogowanie                 można założyć, że użytkownik zaraz po tym się odłącza
+logout                  1       wylogowanie                 trzeba odpowiedzieć wiadomością o mtype = 3, żeby wyłączyć klienta
 
 join [nazwa_pokoju]     1       dołącz do pokoju
 leave [nazwa_pokoju]    1       wyjdź z pokoju
@@ -65,8 +65,14 @@ struct command {
 
 // struktura wiadomości wysyłanych od serwera do klienta
 struct message {
-    long mtype; // 1 dla wiadomości od użytkowników, 2 dla wiadomości od serwera
-    // (np  odpowiedzi na rooms, users, help; ewentualna wiadomość powitalna)
+    long mtype;
+    /* 1    dla wiadomości od użytkowników
+       2    dla wiadomości od serwera
+                (np. odpowiedzi na rooms, users, help; ewentualna wiadomość powitalna)
+       3    wiadomość specjalna od serwera, po której otrzymaniu klient powinien się zakończyć
+                (np. komunikat o odrzuceniu połączenia z powodu przekroczonej liczby użytkowników,
+                zajętego nicku, wiadomość pożegnalna po wylogowaniu albo gdy serwer dostał sygnał zamykający)
+    */
 
     char from[MAX_NAME_LENGTH]; // nazwa użytkownika, który wysłał wiadomość
     char to_symbol; // @ - wiadomość prywatna, # - wiadomość na kanał, * - wiadomość do wszystkich

@@ -86,7 +86,7 @@ void login(key_t in_key) {
 
 void logout() {
     struct command cmd;
-    cmd.mtype = 2;
+    cmd.mtype = 1;
     sprintf(cmd.data, "logout");
     send_command(cmd);
 }
@@ -116,7 +116,7 @@ void* read_messages(void *arg) {
         }
     }
 
-    raise(SIGINT);
+    raise(SIGTERM);
     return NULL;
 }
 
@@ -137,17 +137,12 @@ void* send_commands(void *arg) {
         }
         buffer[strlen(buffer) - 1] = 0;
 
-        if (strcmp(buffer, "logout") == 0) {
-            logout();
-            loop = 0;
-            break;
-        }
-
         strncpy(cmd.data, buffer, sizeof(cmd.data));
         send_command(cmd);
     }
+
     free(buffer);
-    raise(SIGINT);
+    raise(SIGTERM);
     return NULL;
 }
 
@@ -174,7 +169,11 @@ void cleanup() {
 }
 
 void handle(int sig) {
-    exit(0);
+    if (sig == SIGINT) {
+        logout();
+    } else if (sig == SIGTERM) {
+        exit(0);
+    }
 }
 
 int main() {

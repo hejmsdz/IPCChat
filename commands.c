@@ -28,7 +28,8 @@ void cmd_login(char username[], key_t key) {
 }
 
 void cmd_logout(char username[]) {
-    remove_user(username);
+    int user_q = remove_user(username);
+    send(user_q, server_message(3, '@', username, "Goodbye!"));
 }
 
 void cmd_users(char username[]) {
@@ -79,7 +80,7 @@ void cmd_leave(char room_name[], char username[]) {
             broadcast(server_message(2, '@', username, "Such room doesn't exist!"));
             break;
         case 1:
-            broadcast(server_message(2, '@', username, "You left #%s.", room_name));
+            broadcast(server_message(2, '@', username, "You left %s.", room_name));
             break;
         case 2:
             broadcast(server_message(2, '@', username, "You left and removed %s.", room_name));
@@ -99,6 +100,7 @@ void cmd_help(char username[]) {
          " join [room]\n"
          " leave [room]\n"
          " help\n"
+         " logout\n"
     ));
 }
 

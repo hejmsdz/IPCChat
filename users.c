@@ -70,18 +70,20 @@ int remove_user(char username[]) {
 
     user = find_user(username, &prev);
 
-    for (room = available_rooms; room != NULL; room = room->next) {
-        leave_room(room->name, username);
-    }
-
     if (user == NULL) {
         return -1;
+    }
+
+    int user_q = user->q;
+
+    for (room = available_rooms; room != NULL; room = room->next) {
+        leave_room(room->name, username);
     }
 
     *(prev == NULL ? &connected_users : &prev->next) = user->next;
 
     free(user);
-    return 1;
+    return user_q;
 }
 
 void list_users(char *list) {
