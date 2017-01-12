@@ -133,4 +133,6 @@ int main() {
 
     q = open_queue();
     read_commands();
+
+    return 0;
 }

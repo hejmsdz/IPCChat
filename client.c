@@ -195,4 +195,6 @@ int main() {
     login(in_key);
 
     main_loop();
+
+    return 0;
 }
