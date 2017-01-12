@@ -270,19 +270,17 @@ void add_user(char username[], key_t key) {
 }
 
 void remove_user(char username[]) {
-    struct user *user, *prev = NULL;
-    for (user = connected_users; user != NULL; user = user->next) {
-        if (strcmp(user->username, username) == 0) {
-            if (prev == NULL) {
-                connected_users = user->next;
-            } else {
-                prev->next = user->next;
-            }
-            printf("Disconnecting %s\n", user->username);
-            free(user);
-        }
-        prev = user;
+    struct user *user, *prev;
+    struct room *room;
+
+    user = find_user(username, &prev);
+    *(prev == NULL ? &connected_users : &prev->next) = user->next;
+
+    for (room = available_rooms; room != NULL; room = room->next) {
+        leave_room(room->name, user->username);
     }
+
+    free(user);
 }
 
 void process_command(struct command cmd) {
