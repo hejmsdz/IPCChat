@@ -117,3 +117,7 @@ void cmd_message(char message[], char username[]) {
 
     broadcast(msg);
 }
+
+void cmd_unknown(char username[]) {
+    broadcast(server_message(2, '@', username, "I don't understand! Type 'help' to see available commands."));
+}

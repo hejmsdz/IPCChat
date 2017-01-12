@@ -64,6 +64,8 @@ void process_command(struct command cmd) {
                 cmd_leave(params, cmd.username);
             } else if (strcmp(action, "help") == 0) {
                 cmd_help(cmd.username);
+            } else {
+                cmd_unknown(cmd.username);
             }
         } else if (cmd.mtype == 2) {
             if (strcmp(action, "login") == 0) {

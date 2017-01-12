@@ -24,4 +24,6 @@ void cmd_help(char username[]);
 
 void cmd_message(char message[], char username[]);
 
+void cmd_unknown(char username[]);
+
 #endif //IPCCHAT_COMMANDS_H
