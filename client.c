@@ -84,6 +84,13 @@ void login(key_t in_key) {
     send_command(cmd);
 }
 
+void logout() {
+    struct command cmd;
+    cmd.mtype = 2;
+    sprintf(cmd.data, "logout");
+    send_command(cmd);
+}
+
 void* read_messages(void *arg) {
     struct message msg;
     size_t msg_size = sizeof(msg) - sizeof(msg.mtype);
@@ -131,6 +138,7 @@ void* send_commands(void *arg) {
         buffer[strlen(buffer) - 1] = 0;
 
         if (strcmp(buffer, "logout") == 0) {
+            logout();
             loop = 0;
             break;
         }

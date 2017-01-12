@@ -4,7 +4,11 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
+  "/home/rozwad/ClionProjects/IPCChat/commands.c" "/home/rozwad/ClionProjects/IPCChat/cmake-build-debug/CMakeFiles/server.dir/commands.c.o"
+  "/home/rozwad/ClionProjects/IPCChat/rooms.c" "/home/rozwad/ClionProjects/IPCChat/cmake-build-debug/CMakeFiles/server.dir/rooms.c.o"
   "/home/rozwad/ClionProjects/IPCChat/server.c" "/home/rozwad/ClionProjects/IPCChat/cmake-build-debug/CMakeFiles/server.dir/server.c.o"
+  "/home/rozwad/ClionProjects/IPCChat/server_funcs.c" "/home/rozwad/ClionProjects/IPCChat/cmake-build-debug/CMakeFiles/server.dir/server_funcs.c.o"
+  "/home/rozwad/ClionProjects/IPCChat/users.c" "/home/rozwad/ClionProjects/IPCChat/cmake-build-debug/CMakeFiles/server.dir/users.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

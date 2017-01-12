@@ -57,9 +57,57 @@ include CMakeFiles/server.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/server.dir/flags.make
 
+CMakeFiles/server.dir/users.c.o: CMakeFiles/server.dir/flags.make
+CMakeFiles/server.dir/users.c.o: ../users.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rozwad/ClionProjects/IPCChat/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/server.dir/users.c.o"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/server.dir/users.c.o   -c /home/rozwad/ClionProjects/IPCChat/users.c
+
+CMakeFiles/server.dir/users.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/server.dir/users.c.i"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/rozwad/ClionProjects/IPCChat/users.c > CMakeFiles/server.dir/users.c.i
+
+CMakeFiles/server.dir/users.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/server.dir/users.c.s"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rozwad/ClionProjects/IPCChat/users.c -o CMakeFiles/server.dir/users.c.s
+
+CMakeFiles/server.dir/users.c.o.requires:
+
+.PHONY : CMakeFiles/server.dir/users.c.o.requires
+
+CMakeFiles/server.dir/users.c.o.provides: CMakeFiles/server.dir/users.c.o.requires
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/users.c.o.provides.build
+.PHONY : CMakeFiles/server.dir/users.c.o.provides
+
+CMakeFiles/server.dir/users.c.o.provides.build: CMakeFiles/server.dir/users.c.o
+
+
+CMakeFiles/server.dir/rooms.c.o: CMakeFiles/server.dir/flags.make
+CMakeFiles/server.dir/rooms.c.o: ../rooms.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rozwad/ClionProjects/IPCChat/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/server.dir/rooms.c.o"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/server.dir/rooms.c.o   -c /home/rozwad/ClionProjects/IPCChat/rooms.c
+
+CMakeFiles/server.dir/rooms.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/server.dir/rooms.c.i"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/rozwad/ClionProjects/IPCChat/rooms.c > CMakeFiles/server.dir/rooms.c.i
+
+CMakeFiles/server.dir/rooms.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/server.dir/rooms.c.s"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rozwad/ClionProjects/IPCChat/rooms.c -o CMakeFiles/server.dir/rooms.c.s
+
+CMakeFiles/server.dir/rooms.c.o.requires:
+
+.PHONY : CMakeFiles/server.dir/rooms.c.o.requires
+
+CMakeFiles/server.dir/rooms.c.o.provides: CMakeFiles/server.dir/rooms.c.o.requires
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/rooms.c.o.provides.build
+.PHONY : CMakeFiles/server.dir/rooms.c.o.provides
+
+CMakeFiles/server.dir/rooms.c.o.provides.build: CMakeFiles/server.dir/rooms.c.o
+
+
 CMakeFiles/server.dir/server.c.o: CMakeFiles/server.dir/flags.make
 CMakeFiles/server.dir/server.c.o: ../server.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rozwad/ClionProjects/IPCChat/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/server.dir/server.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rozwad/ClionProjects/IPCChat/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/server.dir/server.c.o"
 	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/server.dir/server.c.o   -c /home/rozwad/ClionProjects/IPCChat/server.c
 
 CMakeFiles/server.dir/server.c.i: cmake_force
@@ -81,17 +129,73 @@ CMakeFiles/server.dir/server.c.o.provides: CMakeFiles/server.dir/server.c.o.requ
 CMakeFiles/server.dir/server.c.o.provides.build: CMakeFiles/server.dir/server.c.o
 
 
+CMakeFiles/server.dir/commands.c.o: CMakeFiles/server.dir/flags.make
+CMakeFiles/server.dir/commands.c.o: ../commands.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rozwad/ClionProjects/IPCChat/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/server.dir/commands.c.o"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/server.dir/commands.c.o   -c /home/rozwad/ClionProjects/IPCChat/commands.c
+
+CMakeFiles/server.dir/commands.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/server.dir/commands.c.i"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/rozwad/ClionProjects/IPCChat/commands.c > CMakeFiles/server.dir/commands.c.i
+
+CMakeFiles/server.dir/commands.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/server.dir/commands.c.s"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rozwad/ClionProjects/IPCChat/commands.c -o CMakeFiles/server.dir/commands.c.s
+
+CMakeFiles/server.dir/commands.c.o.requires:
+
+.PHONY : CMakeFiles/server.dir/commands.c.o.requires
+
+CMakeFiles/server.dir/commands.c.o.provides: CMakeFiles/server.dir/commands.c.o.requires
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/commands.c.o.provides.build
+.PHONY : CMakeFiles/server.dir/commands.c.o.provides
+
+CMakeFiles/server.dir/commands.c.o.provides.build: CMakeFiles/server.dir/commands.c.o
+
+
+CMakeFiles/server.dir/server_funcs.c.o: CMakeFiles/server.dir/flags.make
+CMakeFiles/server.dir/server_funcs.c.o: ../server_funcs.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rozwad/ClionProjects/IPCChat/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/server.dir/server_funcs.c.o"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/server.dir/server_funcs.c.o   -c /home/rozwad/ClionProjects/IPCChat/server_funcs.c
+
+CMakeFiles/server.dir/server_funcs.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/server.dir/server_funcs.c.i"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/rozwad/ClionProjects/IPCChat/server_funcs.c > CMakeFiles/server.dir/server_funcs.c.i
+
+CMakeFiles/server.dir/server_funcs.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/server.dir/server_funcs.c.s"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rozwad/ClionProjects/IPCChat/server_funcs.c -o CMakeFiles/server.dir/server_funcs.c.s
+
+CMakeFiles/server.dir/server_funcs.c.o.requires:
+
+.PHONY : CMakeFiles/server.dir/server_funcs.c.o.requires
+
+CMakeFiles/server.dir/server_funcs.c.o.provides: CMakeFiles/server.dir/server_funcs.c.o.requires
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/server_funcs.c.o.provides.build
+.PHONY : CMakeFiles/server.dir/server_funcs.c.o.provides
+
+CMakeFiles/server.dir/server_funcs.c.o.provides.build: CMakeFiles/server.dir/server_funcs.c.o
+
+
 # Object files for target server
 server_OBJECTS = \
-"CMakeFiles/server.dir/server.c.o"
+"CMakeFiles/server.dir/users.c.o" \
+"CMakeFiles/server.dir/rooms.c.o" \
+"CMakeFiles/server.dir/server.c.o" \
+"CMakeFiles/server.dir/commands.c.o" \
+"CMakeFiles/server.dir/server_funcs.c.o"
 
 # External object files for target server
 server_EXTERNAL_OBJECTS =
 
+server: CMakeFiles/server.dir/users.c.o
+server: CMakeFiles/server.dir/rooms.c.o
 server: CMakeFiles/server.dir/server.c.o
+server: CMakeFiles/server.dir/commands.c.o
+server: CMakeFiles/server.dir/server_funcs.c.o
 server: CMakeFiles/server.dir/build.make
 server: CMakeFiles/server.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/rozwad/ClionProjects/IPCChat/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C executable server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/rozwad/ClionProjects/IPCChat/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C executable server"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/server.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -99,7 +203,11 @@ CMakeFiles/server.dir/build: server
 
 .PHONY : CMakeFiles/server.dir/build
 
+CMakeFiles/server.dir/requires: CMakeFiles/server.dir/users.c.o.requires
+CMakeFiles/server.dir/requires: CMakeFiles/server.dir/rooms.c.o.requires
 CMakeFiles/server.dir/requires: CMakeFiles/server.dir/server.c.o.requires
+CMakeFiles/server.dir/requires: CMakeFiles/server.dir/commands.c.o.requires
+CMakeFiles/server.dir/requires: CMakeFiles/server.dir/server_funcs.c.o.requires
 
 .PHONY : CMakeFiles/server.dir/requires
 

@@ -1,5 +1,9 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/server.dir/users.c.o"
+  "CMakeFiles/server.dir/rooms.c.o"
   "CMakeFiles/server.dir/server.c.o"
+  "CMakeFiles/server.dir/commands.c.o"
+  "CMakeFiles/server.dir/server_funcs.c.o"
   "server.pdb"
   "server"
 )

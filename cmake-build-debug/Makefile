@@ -163,6 +163,60 @@ client.c.s:
 	$(MAKE) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client.c.s
 .PHONY : client.c.s
 
+commands.o: commands.c.o
+
+.PHONY : commands.o
+
+# target to build an object file
+commands.c.o:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/commands.c.o
+.PHONY : commands.c.o
+
+commands.i: commands.c.i
+
+.PHONY : commands.i
+
+# target to preprocess a source file
+commands.c.i:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/commands.c.i
+.PHONY : commands.c.i
+
+commands.s: commands.c.s
+
+.PHONY : commands.s
+
+# target to generate assembly for a file
+commands.c.s:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/commands.c.s
+.PHONY : commands.c.s
+
+rooms.o: rooms.c.o
+
+.PHONY : rooms.o
+
+# target to build an object file
+rooms.c.o:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/rooms.c.o
+.PHONY : rooms.c.o
+
+rooms.i: rooms.c.i
+
+.PHONY : rooms.i
+
+# target to preprocess a source file
+rooms.c.i:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/rooms.c.i
+.PHONY : rooms.c.i
+
+rooms.s: rooms.c.s
+
+.PHONY : rooms.s
+
+# target to generate assembly for a file
+rooms.c.s:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/rooms.c.s
+.PHONY : rooms.c.s
+
 server.o: server.c.o
 
 .PHONY : server.o
@@ -190,6 +244,60 @@ server.c.s:
 	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/server.c.s
 .PHONY : server.c.s
 
+server_funcs.o: server_funcs.c.o
+
+.PHONY : server_funcs.o
+
+# target to build an object file
+server_funcs.c.o:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/server_funcs.c.o
+.PHONY : server_funcs.c.o
+
+server_funcs.i: server_funcs.c.i
+
+.PHONY : server_funcs.i
+
+# target to preprocess a source file
+server_funcs.c.i:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/server_funcs.c.i
+.PHONY : server_funcs.c.i
+
+server_funcs.s: server_funcs.c.s
+
+.PHONY : server_funcs.s
+
+# target to generate assembly for a file
+server_funcs.c.s:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/server_funcs.c.s
+.PHONY : server_funcs.c.s
+
+users.o: users.c.o
+
+.PHONY : users.o
+
+# target to build an object file
+users.c.o:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/users.c.o
+.PHONY : users.c.o
+
+users.i: users.c.i
+
+.PHONY : users.i
+
+# target to preprocess a source file
+users.c.i:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/users.c.i
+.PHONY : users.c.i
+
+users.s: users.c.s
+
+.PHONY : users.s
+
+# target to generate assembly for a file
+users.c.s:
+	$(MAKE) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/users.c.s
+.PHONY : users.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -203,9 +311,21 @@ help:
 	@echo "... client.o"
 	@echo "... client.i"
 	@echo "... client.s"
+	@echo "... commands.o"
+	@echo "... commands.i"
+	@echo "... commands.s"
+	@echo "... rooms.o"
+	@echo "... rooms.i"
+	@echo "... rooms.s"
 	@echo "... server.o"
 	@echo "... server.i"
 	@echo "... server.s"
+	@echo "... server_funcs.o"
+	@echo "... server_funcs.i"
+	@echo "... server_funcs.s"
+	@echo "... users.o"
+	@echo "... users.i"
+	@echo "... users.s"
 .PHONY : help
 
 

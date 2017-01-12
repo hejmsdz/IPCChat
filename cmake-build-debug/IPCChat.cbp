@@ -133,11 +133,35 @@
 		<Unit filename="/home/rozwad/ClionProjects/IPCChat/client.c">
 			<Option target="client"/>
 		</Unit>
+		<Unit filename="/home/rozwad/ClionProjects/IPCChat/commands.c">
+			<Option target="server"/>
+		</Unit>
+		<Unit filename="/home/rozwad/ClionProjects/IPCChat/commands.h">
+			<Option target="server"/>
+		</Unit>
 		<Unit filename="/home/rozwad/ClionProjects/IPCChat/ipcchat.h">
 			<Option target="server"/>
 			<Option target="client"/>
 		</Unit>
+		<Unit filename="/home/rozwad/ClionProjects/IPCChat/rooms.c">
+			<Option target="server"/>
+		</Unit>
+		<Unit filename="/home/rozwad/ClionProjects/IPCChat/rooms.h">
+			<Option target="server"/>
+		</Unit>
 		<Unit filename="/home/rozwad/ClionProjects/IPCChat/server.c">
+			<Option target="server"/>
+		</Unit>
+		<Unit filename="/home/rozwad/ClionProjects/IPCChat/server_funcs.c">
+			<Option target="server"/>
+		</Unit>
+		<Unit filename="/home/rozwad/ClionProjects/IPCChat/server_funcs.h">
+			<Option target="server"/>
+		</Unit>
+		<Unit filename="/home/rozwad/ClionProjects/IPCChat/users.c">
+			<Option target="server"/>
+		</Unit>
+		<Unit filename="/home/rozwad/ClionProjects/IPCChat/users.h">
 			<Option target="server"/>
 		</Unit>
 		<Unit filename="/home/rozwad/ClionProjects/IPCChat/CMakeLists.txt">
