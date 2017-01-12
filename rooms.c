@@ -100,11 +100,11 @@ int leave_room(char room_name[], char username[]) {
 
 void list_rooms(char *list) {
     if (num_rooms == 0) {
-        strcpy(list, "There aren't any open rooms");
+        strncpy(list, "There aren't any open rooms", MAX_MESSAGE_LENGTH);
         return;
     }
 
-    strcat(list, "Open rooms: ");
+    strncpy(list, "Open rooms: ", MAX_MESSAGE_LENGTH);
 
     struct room *room;
     for (room = available_rooms; room != NULL; room = room->next) {
@@ -120,7 +120,7 @@ void list_members(char room_name[], char *list) {
 
     room = find_room(room_name, NULL);
     if (room == NULL) {
-        strcpy(list, "Such room doesn't exist");
+        strncpy(list, "Such room doesn't exist", MAX_MESSAGE_LENGTH);
     } else {
         sprintf(list, "Users connected to %s: ", room_name);
 

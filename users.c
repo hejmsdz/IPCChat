@@ -85,7 +85,7 @@ int remove_user(char username[]) {
 }
 
 void list_users(char *list) {
-    strcat(list, "Connected users: ");
+    strncpy(list, "Connected users: ", MAX_MESSAGE_LENGTH);
 
     struct user *user;
     for (user = connected_users; user != NULL; user = user->next) {
