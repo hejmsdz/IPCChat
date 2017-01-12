@@ -29,7 +29,9 @@ struct room {
 };
 
 struct user *connected_users = NULL;
+int num_users = 0;
 struct room *available_rooms = NULL;
+int num_rooms = 0;
 int q;
 
 int open_queue() {
@@ -98,39 +100,42 @@ struct room* find_room(char name[], struct room **prev) {
     return NULL;
 }
 
-void send_message(struct message msg) {
+void send(int queue, struct message msg) {
     size_t msg_size = sizeof(msg) - sizeof(msg.mtype);
 
+    if (msgsnd(queue, &msg, msg_size, 0) == -1) {
+        perror("Failed to send a message");
+    }
+}
+
+void broadcast(struct message msg) {
     if (msg.to_symbol == '#') {
         struct room *room;
         room = find_room(msg.to, NULL);
 
         struct room_member *member;
         for (member = room->members; member != NULL; member = member->next) {
-            if (msgsnd(member->member->q, &msg, msg_size, 0) == -1) {
-                perror("Failed to send a message");
-            }
+            send(member->member->q, msg);
         }
     } else {
         struct user *user;
         for (user = connected_users; user != NULL; user = user->next) {
             if (user_match(user, msg.to_symbol, msg.to)) {
-                if (msgsnd(user->q, &msg, msg_size, 0) == -1) {
-                    perror("Failed to send a message");
-                }
+                send(user->q, msg);
             }
         }
     }
 }
 
-void send_server_message(char to_symbol, char *to, char *message) {
+struct message server_message(char to_symbol, char *to, char *message, long mtype) {
     struct message msg;
-    msg.mtype = 2;
+    msg.mtype = mtype;
     strncpy(msg.from, "server", MAX_NAME_LENGTH);
     msg.to_symbol = to_symbol;
     strncpy(msg.to, to, MAX_NAME_LENGTH);
     strncpy(msg.message, message, MAX_MESSAGE_LENGTH);
-    send_message(msg);
+
+    return msg;
 }
 
 void send_user_list(char username[]) {
@@ -144,7 +149,7 @@ void send_user_list(char username[]) {
         }
     }
 
-    send_server_message('@', username, users_list);
+    broadcast(server_message('@', username, users_list, 2));
 }
 
 void send_room_list(char username[]) {
@@ -162,7 +167,7 @@ void send_room_list(char username[]) {
         }
     }
 
-    send_server_message('@', username, rooms_list);
+    broadcast(server_message('@', username, rooms_list, 2));
 }
 
 void send_member_list(char room_name[], char username[]) {
@@ -184,7 +189,7 @@ void send_member_list(char room_name[], char username[]) {
         }
     }
 
-    send_server_message('@', username, members_list);
+    broadcast(server_message('@', username, members_list, 2));
 }
 
 void join_room(char room_name[], char username[]) {
@@ -200,19 +205,24 @@ void join_room(char room_name[], char username[]) {
         member->next = room->members;
         room->members = member;
 
-        send_server_message('@', username, "You joined a room");
+        broadcast(server_message('@', username, "You joined a room", 2));
     } else {
+        if (num_rooms >= MAX_GROUPS) {
+            broadcast(server_message('@', username, "No more rooms are allowed", 2));
+            return;
+        }
+
         struct room *new_room = malloc(sizeof(struct room));
         strncpy(new_room->name, room_name, MAX_NAME_LENGTH);
         new_room->members = malloc(sizeof(struct room_member));
         new_room->members->member = user;
 
         *(prev == NULL ? &available_rooms : &prev->next) = new_room;
+        num_rooms++;
 
-        send_server_message('@', username, "You created and joined a room");
+        broadcast(server_message('@', username, "You created and joined a room", 2));
     }
 }
-
 
 void leave_room(char room_name[], char username[]) {
     struct user *user;
@@ -238,25 +248,30 @@ void leave_room(char room_name[], char username[]) {
     if (room->members == NULL) {
         *(prev_room == NULL ? &available_rooms : &prev_room->next) = room->next;
         free(room);
-        send_server_message('@', username, "You left and removed a room");
+        num_rooms--;
+        broadcast(server_message('@', username, "You left and removed a room", 2));
     } else {
-        send_server_message('@', username, "You left a room");
+        broadcast(server_message('@', username, "You left a room", 2));
     }
 }
 
 void add_user(char username[], key_t key) {
     struct user *user, *prev = NULL;
-    for (user = connected_users; user != NULL; user = user->next) {
-        if (strcmp(user->username, username) == 0) {
-            printf("This username is taken!\n");
-            return;
-        }
-        prev = user;
-    }
 
     int user_q = msgget(key, 0);
     if (user_q == -1) {
         perror("Failed to open a user's queue");
+        return;
+    }
+
+    if (num_users >= MAX_USERS) {
+        send(user_q, server_message('@', username, "No more users are allowed!", 3));
+        return;
+    }
+
+    user = find_user(username, &prev);
+    if (user != NULL) {
+        send(user_q, server_message('@', username, "This username is taken!", 3));
         return;
     }
 
@@ -265,8 +280,9 @@ void add_user(char username[], key_t key) {
     new_user->q = user_q;
     new_user->next = NULL;
     *(prev == NULL ? &connected_users : &prev->next) = new_user;
+    num_users++;
 
-    send_server_message('@', username, "Welcome to the server!");
+    broadcast(server_message('@', username, "Welcome to the server!", 2));
 }
 
 void remove_user(char username[]) {
@@ -299,7 +315,7 @@ void process_command(struct command cmd) {
             strncpy(msg.message, cmd.data + strlen(msg.to) + 2, MAX_MESSAGE_LENGTH);
         }
 
-        send_message(msg);
+        broadcast(msg);
     } else {
         char action[32];
         sscanf(cmd.data, "%s", action);
@@ -311,17 +327,11 @@ void process_command(struct command cmd) {
             } else if (strcmp(action, "rooms") == 0) {
                 send_room_list(cmd.username);
             } else if (strcmp(action, "members") == 0) {
-                char room_name[MAX_NAME_LENGTH];
-                sscanf(params, "%s", room_name);
-                send_member_list(room_name, cmd.username);
+                send_member_list(params, cmd.username);
             } else if (strcmp(action, "join") == 0) {
-                char room_name[MAX_NAME_LENGTH];
-                sscanf(params, "%s", room_name);
-                join_room(room_name, cmd.username);
+                join_room(params, cmd.username);
             } else if (strcmp(action, "leave") == 0) {
-                char room_name[MAX_NAME_LENGTH];
-                sscanf(params, "%s", room_name);
-                leave_room(room_name, cmd.username);
+                leave_room(params, cmd.username);
             }
         } else if (cmd.mtype == 2) {
             if (strcmp(action, "login") == 0) {
@@ -377,7 +387,7 @@ void cleanup() {
 }
 
 void handle(int sig) {
-    send_server_message('*', "", "Server received a signal and will terminate.");
+    broadcast(server_message('*', "", "Server received a signal and will terminate.", 3));
 
     exit(0);
 }

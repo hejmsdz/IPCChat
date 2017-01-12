@@ -97,11 +97,16 @@ void* read_messages(void *arg) {
 
         if (msg.mtype == 1) {
             printf("\n" COLOR_GREEN "%s" COLOR_RESET, msg.from);
-        } else if (msg.mtype == 2) {
+        } else if (msg.mtype == 2 || msg.mtype == 3) {
             printf("\n" COLOR_RED "%s" COLOR_RESET, msg.from);
         }
         printf(" to " COLOR_GREEN "%c%s" COLOR_RESET "\n", msg.to_symbol, msg.to);
         printf(COLOR_BOLD "%s" COLOR_RESET "\n\n", msg.message);
+
+        if (msg.mtype == 3) {
+            loop = 0;
+            break;
+        }
     }
 
     raise(SIGINT);
@@ -157,11 +162,6 @@ void main_loop() {
 }
 
 void cleanup() {
-    struct command cmd;
-    cmd.mtype = 2;
-    strcpy(cmd.data, "logout");
-    send_command(cmd);
-
     msgctl(in_q, IPC_RMID, NULL);
 }
 
