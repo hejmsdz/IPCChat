@@ -47,7 +47,7 @@ int open_input_queue(key_t key) {
 
     key = create_ftok();
 
-    queue = msgget(key, IPC_CREAT | 0622);
+    queue = msgget(key, IPC_CREAT | IPC_EXCL | 0622);
     if (queue == -1) {
         perror("Failed to access input queue");
         exit(-1);

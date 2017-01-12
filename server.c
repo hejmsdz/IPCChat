@@ -31,7 +31,7 @@ int open_queue() {
         exit(-1);
     }
 
-    queue = msgget(key, IPC_CREAT | 0777);
+    queue = msgget(key, IPC_CREAT | IPC_EXCL | 0622);
     if (queue == -1) {
         perror("Failed to open a server queue");
         exit(-1);
