@@ -37,7 +37,7 @@ int open_queue() {
         exit(-1);
     }
 
-    printf("Listening on queue %u\n", key);
+    printf("Listening on queue %u\n", queue);
     return queue;
 }
 

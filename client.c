@@ -77,10 +77,10 @@ void send_command(struct command cmd) {
     }
 }
 
-void login(key_t in_key) {
+void login(int in_q) {
     struct command cmd;
     cmd.mtype = 2;
-    sprintf(cmd.data, "login %u", in_key);
+    sprintf(cmd.data, "login %u", in_q);
     send_command(cmd);
 }
 
@@ -181,17 +181,16 @@ int main() {
     signal(SIGINT, handle);
     signal(SIGTERM, handle);
 
-    key_t in_key, out_key;
+    key_t in_key;
 
-    printf("Server queue key: ");
-    scanf("%u", &out_key);
+    printf("Server queue ID: ");
+    scanf("%u", &out_q);
     printf("Username: ");
     scanf("%s", username);
 
     in_key = create_ftok();
     in_q = open_input_queue(in_key);
-    out_q = open_output_queue(out_key);
-    login(in_key);
+    login(in_q);
 
     main_loop();
 

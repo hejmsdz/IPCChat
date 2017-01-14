@@ -7,12 +7,7 @@
 #include "users.h"
 #include "server_funcs.h"
 
-void cmd_login(char username[], key_t key) {
-    int user_q = msgget(key, 0);
-    if (user_q == -1) {
-        return;
-    }
-
+void cmd_login(char username[], int user_q) {
     int result = add_user(username, user_q);
     switch (result) {
         case 1:
