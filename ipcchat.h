@@ -1,7 +1,7 @@
 /*
     MR & JP
-    ver. 1.2.0
-    23:55 12.01.2017 (w razie jakby coś się zmieniło jeszcze)
+    ver. 1.3.0
+    16:15 14.01.2017 (w razie jakby coś się zmieniło jeszcze)
 */
 
 #ifndef IPCCHAT_IPCCHAT_H
@@ -20,7 +20,7 @@
 #define MAX_NAME_LENGTH 32
 
 // maksymalna długość wiadomości
-#define MAX_MESSAGE_LENGTH 256
+#define MAX_MESSAGE_LENGTH 2048
 
 
 /*
