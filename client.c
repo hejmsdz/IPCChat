@@ -171,7 +171,8 @@ void cleanup() {
 void handle(int sig) {
     if (sig == SIGINT) {
         logout();
-    } else if (sig == SIGTERM) {
+        alarm(1);
+    } else if (sig == SIGTERM || sig == SIGALRM) {
         exit(0);
     }
 }
@@ -180,6 +181,7 @@ int main() {
     atexit(cleanup);
     signal(SIGINT, handle);
     signal(SIGTERM, handle);
+    signal(SIGALRM, handle);
 
     key_t in_key;
 
