@@ -21,6 +21,7 @@ extern int num_rooms;
 
 bool send(int queue, struct message msg);
 int broadcast(struct message msg);
+int broadcast_excluding(struct message msg, char exclude[]);
 struct message server_message(long mtype, char to_symbol, char *to, char *format, ...);
 
 #endif //IPCCHAT_SERVER_FUNCS_H
