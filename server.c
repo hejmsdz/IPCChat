@@ -31,7 +31,7 @@ int open_queue() {
         exit(-1);
     }
 
-    queue = msgget(key, IPC_CREAT | IPC_EXCL | 0622);
+    queue = msgget(key, IPC_CREAT | 0622);
     if (queue == -1) {
         perror("Failed to open a server queue");
         exit(-1);
@@ -71,9 +71,9 @@ void process_command(struct command cmd) {
             }
         } else if (cmd.mtype == 2) {
             if (strcmp(action, "login") == 0) {
-                key_t key;
-                sscanf(params, "%u", &key);
-                cmd_login(cmd.username, key);
+                int user_q;
+                sscanf(params, "%u", &user_q);
+                cmd_login(cmd.username, user_q);
             }
         }
     }
@@ -109,7 +109,7 @@ void cleanup() {
 
         while(room->members != NULL) {
             member = room->members;
-            room->members->next = member;
+            room->members = member->next;
             free(member);
         }
 
